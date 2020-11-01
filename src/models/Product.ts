@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 export type Product = {
+  image: string,
   id: string,
   title: string,
   description: string,
