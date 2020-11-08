@@ -56,6 +56,9 @@ export default function Products() {
               <Typography>
                 {formatAsPrice(product.price)}
               </Typography>
+              <Typography>
+                {`Only: ${product.count} left!`}
+              </Typography>
             </CardContent>
             <CardActions>
               <AddProductToCart product={product}/>
