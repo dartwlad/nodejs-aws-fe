@@ -36,7 +36,8 @@ export default function CSVFileImport({url, title}: CSVFileImportProps) {
         method: 'GET',
         url,
         params: {
-          name: encodeURIComponent(file.name)
+          name: encodeURIComponent(file.name),
+          type: encodeURIComponent(file.type),
         }
       })
       console.log('File to upload: ', file.name)
