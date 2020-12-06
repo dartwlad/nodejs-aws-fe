@@ -2,6 +2,8 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'store/store';
 import {Product} from "models/Product";
 import {CartItem} from "models/CartItem";
+import API_PATHS from "../constants/apiPaths";
+import axios from 'axios';
 
 interface CartState {
   items: CartItem[]
@@ -40,11 +42,39 @@ export const cartSlice = createSlice({
     },
     clearCart: (state) => {
       state.items = [];
-    }
+    },
+    setDefaultCart: (state, { payload: { items } }: PayloadAction<CartState>) => {
+      return {
+        items: [
+          ...items,
+        ],
+      }
+    },
   },
 });
 
-export const {addToCart, removeFromCart, clearCart} = cartSlice.actions;
+export const addToCart = (product: Product) => async (dispatch: any, getState: any) => {
+  dispatch(cartSlice.actions.addToCart(product));
+  const { cart: { items } } = getState();
+
+  await axios.put(`${API_PATHS.cart}/profile/cart`, { items });
+};
+
+export const removeFromCart = (product: Product) => async (dispatch: any, getState: any) => {
+  dispatch(cartSlice.actions.removeFromCart(product));
+  const { cart: { items } } = getState();
+
+  await axios.put(`${API_PATHS.cart}/profile/cart`, { items });
+};
+
+export const clearCart = () => async (dispatch: any, getState: any) => {
+  dispatch(cartSlice.actions.clearCart());
+  const { cart: { items } } = getState();
+
+  await axios.put(`${API_PATHS.cart}/profile/cart`, { items });
+};
+
+export const {setDefaultCart} = cartSlice.actions;
 
 
 // The function below is called a selector and allows us to select a value from
